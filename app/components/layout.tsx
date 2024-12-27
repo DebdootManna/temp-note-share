@@ -1,6 +1,5 @@
 import { ThemeProvider } from './theme-provider'
 import { Header } from './header'
-import { ToastViewport } from './ui/toast'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +7,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <Header />
         <main className="container mx-auto px-4 py-8">{children}</main>
-        <ToastViewport />
       </div>
     </ThemeProvider>
   )

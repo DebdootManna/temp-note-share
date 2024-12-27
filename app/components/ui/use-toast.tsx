@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react"
+import type { ToastActionElement, ToastProps } from "../../components/ui/toast"
 
-import type {
-  ToastActionElement,
-  ToastProps,
-} from "../../components/ui/toast"
-
-// ... rest of the file remains the same
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
 
@@ -92,8 +87,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
