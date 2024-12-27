@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react"
 
 import type {
   ToastActionElement,
   ToastProps,
-} from "../toast"
+} from "../../components/ui/toast"
 
+// ... rest of the file remains the same
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
 

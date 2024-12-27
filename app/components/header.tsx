@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useTheme } from './theme-provider'
 import { LoginDialog } from './auth/login-dialog'
-import { useAuth } from './context/auth-context'
+import { useAuth } from '../contexts/auth-context'
 import { Button } from '../components/ui/button'
 
 export function Header() {
