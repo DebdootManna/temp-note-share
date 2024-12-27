@@ -9,10 +9,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <Layout>{children}</Layout>
+          <Layout>
+            {children}
+          </Layout>
           <Toaster />
         </AuthProvider>
       </body>

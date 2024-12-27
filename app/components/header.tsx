@@ -4,15 +4,16 @@ import Link from 'next/link'
 import { useTheme } from './theme-provider'
 import { LoginDialog } from './auth/login-dialog'
 import { useAuth } from '../contexts/auth-context'
-import { Button } from '../components/ui/button'
+import { Button } from './ui/button'
+import { Moon, Sun } from 'lucide-react'
 
 export function Header() {
   const { theme, setTheme } = useTheme()
   const { user } = useAuth()
 
   return (
-    <header className="bg-gray-100 dark:bg-gray-800 py-4">
-      <div className="container mx-auto px-4 flex justify-between items-center">
+    <header className="bg-background border-b">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold">
           TempNote
         </Link>
@@ -21,11 +22,12 @@ export function Header() {
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            aria-label="Toggle theme"
           >
-            {theme === 'light' ? '🌙' : '☀️'}
+            {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
           </Button>
           {user ? (
-            <span>{user.email}</span>
+            <span className="text-sm text-muted-foreground">{user.email}</span>
           ) : (
             <LoginDialog />
           )}
