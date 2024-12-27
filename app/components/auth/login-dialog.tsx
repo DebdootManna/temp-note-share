@@ -32,8 +32,8 @@ export function LoginDialog() {
         <Auth
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
-          providers={['github', 'google']}
-          theme="dark"
+          providers={[]}
+          view="magic_link"
         />
       </DialogContent>
     </Dialog>
