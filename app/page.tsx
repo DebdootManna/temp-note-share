@@ -8,6 +8,9 @@ import { Button } from './components/ui/button'
 import { Textarea } from './components/ui/textarea'
 import { useToast } from './components/ui/use-toast'
 import { useAuth } from './contexts/auth-context'
+import { NotesList } from './components/notes-list'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 
 export default function Page() {
   const [content, setContent] = useState('')
@@ -16,6 +19,15 @@ export default function Page() {
   const { user } = useAuth()
 
   const createNote = async () => {
+    if (!content.trim()) {
+      toast({
+        title: "Error",
+        description: "Note content cannot be empty",
+        variant: "destructive",
+      })
+      return
+    }
+
     const id = uuidv4()
     const { error } = await supabase
       .from('notes')
@@ -34,25 +46,59 @@ export default function Page() {
         variant: "destructive",
       })
     } else {
+      setContent('')
+      toast({
+        title: "Success",
+        description: "Note created successfully!",
+      })
       router.push(`/note/${id}`)
     }
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <h1 className="text-4xl font-bold">Create a {user ? 'Permanent' : 'Temporary'} Note</h1>
-      <Textarea
-        className="min-h-[200px]"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Type your note here..."
-      />
-      <Button
-        onClick={createNote}
-        className="w-full"
-      >
-        Create Note
-      </Button>
+    <div className="container mx-auto px-4 py-8">
+      <Tabs defaultValue="notes" className="space-y-8">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="notes">My Notes</TabsTrigger>
+          <TabsTrigger value="create">Create Note</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="notes" className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">
+              {user ? 'Your Notes' : 'Temporary Notes'}
+            </h2>
+          </div>
+          <NotesList />
+        </TabsContent>
+
+        <TabsContent value="create">
+          <Card>
+            <CardHeader>
+              <CardTitle>Create a {user ? 'Permanent' : 'Temporary'} Note</CardTitle>
+              <CardDescription>
+                {user 
+                  ? 'This note will be permanently saved to your account.'
+                  : 'This note will expire in 24 hours. Login to create permanent notes.'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                className="min-h-[200px]"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Type your note here..."
+              />
+              <Button
+                onClick={createNote}
+                className="w-full"
+              >
+                Create Note
+              </Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
