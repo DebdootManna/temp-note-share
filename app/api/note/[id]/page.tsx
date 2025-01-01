@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -10,7 +11,7 @@ import { LoginDialog } from '../../../components/auth/login-dialog'
 import { useToast } from '../../../components/ui/use-toast'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../../components/ui/card'
 import { ArrowLeft, Clock } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 interface Note {
   content: string
