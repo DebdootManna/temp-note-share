@@ -9,9 +9,9 @@ import { Button } from '../../../components/ui/button'
 import { Textarea } from '../../../components/ui/textarea'
 import { LoginDialog } from '../../../components/auth/login-dialog'
 import { useToast } from '../../../components/ui/use-toast'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../../components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '../../../components/ui/card'
 import { ArrowLeft, Clock } from 'lucide-react'
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { formatDistanceToNow } from 'date-fns'
 
 interface Note {
   content: string
