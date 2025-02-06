@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import { supabase } from '../../../lib/supabaseClient'
-import { useAuth } from '../../../contexts/auth-context'
-import { Button } from '../../../components/ui/button'
-import { Textarea } from '../../../components/ui/textarea'
-import { LoginDialog } from '../../../components/auth/login-dialog'
-import { useToast } from '../../../components/ui/use-toast'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '../../../components/ui/card'
-import { ArrowLeft, Clock } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
+import { useState, useEffect } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { supabase } from "../../lib/supabaseClient"
+import { useAuth } from "../../contexts/auth-context"
+import { Button } from "../../components/ui/button"
+import { Textarea } from "../../components/ui/textarea"
+import { LoginDialog } from "../../components/auth/login-dialog"
+import { useToast } from "../../components/ui/use-toast"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "../../components/ui/card"
+import { ArrowLeft, Clock } from "lucide-react"
+import { formatDistanceToNow } from "date-fns"
 
 interface Note {
   content: string
@@ -21,7 +21,7 @@ interface Note {
 
 export default function NotePage() {
   const [note, setNote] = useState<Note | null>(null)
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const { id } = useParams()
   const { user } = useAuth()
@@ -30,14 +30,10 @@ export default function NotePage() {
 
   useEffect(() => {
     const fetchNote = async () => {
-      const { data, error } = await supabase
-        .from('notes')
-        .select('content, user_id, expires_at')
-        .eq('id', id)
-        .single()
+      const { data, error } = await supabase.from("notes").select("content, user_id, expires_at").eq("id", id).single()
 
       if (error) {
-        console.error('Error fetching note:', error)
+        console.error("Error fetching note:", error)
         toast({
           title: "Error",
           description: "Failed to fetch note. It may have been deleted or expired.",
@@ -56,22 +52,25 @@ export default function NotePage() {
 
     fetchNote()
 
-    // Set up real-time subscription
     const channel = supabase
       .channel(`note_${id}`)
-      .on('postgres_changes', { 
-        event: '*', 
-        schema: 'public', 
-        table: 'notes',
-        filter: `id=eq.${id}` 
-      }, (payload: any) => {
-        if (payload.eventType === 'DELETE') {
-          router.push('/')
-          return
-        }
-        setNote(payload.new)
-        setContent(payload.new.content)
-      })
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "notes",
+          filter: `id=eq.${id}`,
+        },
+        (payload: any) => {
+          if (payload.eventType === "DELETE") {
+            router.push("/")
+            return
+          }
+          setNote(payload.new)
+          setContent(payload.new.content)
+        },
+      )
       .subscribe()
 
     return () => {
@@ -80,13 +79,10 @@ export default function NotePage() {
   }, [id, router, toast])
 
   const updateNote = async () => {
-    const { error } = await supabase
-      .from('notes')
-      .update({ content })
-      .eq('id', id)
+    const { error } = await supabase.from("notes").update({ content }).eq("id", id)
 
     if (error) {
-      console.error('Error updating note:', error)
+      console.error("Error updating note:", error)
       toast({
         title: "Error",
         description: "Failed to update note. Please try again.",
@@ -105,25 +101,25 @@ export default function NotePage() {
       toast({
         title: "Authentication required",
         description: "Please login to save notes permanently",
-        variant: "destructive"
+        variant: "destructive",
       })
       return
     }
 
     const { error } = await supabase
-      .from('notes')
-      .update({ 
+      .from("notes")
+      .update({
         user_id: user.id,
-        expires_at: null 
+        expires_at: null,
       })
-      .eq('id', id)
+      .eq("id", id)
 
     if (error) {
-      console.error('Error making note permanent:', error)
+      console.error("Error making note permanent:", error)
       toast({
         title: "Error",
         description: "Failed to save note permanently",
-        variant: "destructive"
+        variant: "destructive",
       })
     } else {
       toast({
@@ -150,12 +146,10 @@ export default function NotePage() {
         <Card className="mx-auto max-w-2xl">
           <CardHeader>
             <CardTitle>Note not found</CardTitle>
-            <CardDescription>
-              This note may have been deleted or expired.
-            </CardDescription>
+            <CardDescription>This note may have been deleted or expired.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button onClick={() => router.push('/')} variant="outline">
+            <Button onClick={() => router.push("/")} variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to home
             </Button>
@@ -166,9 +160,9 @@ export default function NotePage() {
   }
 
   const getExpiryText = (expiresAt: string | null) => {
-    if (!expiresAt) return 'Permanent note'
+    if (!expiresAt) return "Permanent note"
     const expiryDate = new Date(expiresAt)
-    if (expiryDate < new Date()) return 'Expired'
+    if (expiryDate < new Date()) return "Expired"
     return `Expires ${formatDistanceToNow(expiryDate, { addSuffix: true })}`
   }
 
@@ -177,7 +171,7 @@ export default function NotePage() {
       <Card className="mx-auto max-w-2xl">
         <CardHeader>
           <div className="flex items-center gap-2 mb-4">
-            <Button onClick={() => router.push('/')} variant="outline" size="sm">
+            <Button onClick={() => router.push("/")} variant="outline" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
@@ -197,15 +191,7 @@ export default function NotePage() {
           />
         </CardContent>
         <CardFooter className="flex justify-between">
-          {!note.user_id && (
-            user ? (
-              <Button onClick={makePermanent}>
-                Save Permanently
-              </Button>
-            ) : (
-              <LoginDialog />
-            )
-          )}
+          {!note.user_id && (user ? <Button onClick={makePermanent}>Save Permanently</Button> : <LoginDialog />)}
         </CardFooter>
       </Card>
     </div>
