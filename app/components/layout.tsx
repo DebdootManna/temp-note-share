@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
-import { ThemeProvider } from './theme-provider'
-import { Header } from './header'
+import { ThemeProvider } from "./theme-provider"
+import { Header } from "./header"
+import type React from "react" // Added import for React
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

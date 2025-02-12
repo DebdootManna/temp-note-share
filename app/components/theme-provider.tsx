@@ -1,8 +1,9 @@
-'use client'
+"use client"
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from "react"
+import type React from "react" // Added import for React
 
-type Theme = 'dark' | 'light'
+type Theme = "dark" | "light"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -16,7 +17,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'light',
+  theme: "light",
   setTheme: () => null,
 }
 
@@ -24,14 +25,14 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'light',
-  storageKey = 'temp-note-share-theme',
+  defaultTheme = "light",
+  storageKey = "temp-note-share-theme",
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme)
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem(storageKey) as Theme
+    const storedTheme = localStorage.getItem(storageKey) as Theme | null
     if (storedTheme) {
       setTheme(storedTheme)
     }
@@ -39,16 +40,14 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove('light', 'dark')
+    root.classList.remove("light", "dark")
     root.classList.add(theme)
   }, [theme])
 
   const value = {
     theme,
     setTheme: (theme: Theme) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(storageKey, theme)
-      }
+      localStorage.setItem(storageKey, theme)
       setTheme(theme)
     },
   }
@@ -63,8 +62,7 @@ export function ThemeProvider({
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
 
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider')
+  if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")
 
   return context
 }

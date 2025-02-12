@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import Link from 'next/link'
-import { useTheme } from './theme-provider'
-import { LoginDialog } from './auth/login-dialog'
-import { useAuth } from '../contexts/auth-context'
-import { Button } from './ui/button'
-import { Moon, Sun } from 'lucide-react'
+import Link from "next/link"
+import { useTheme } from "./theme-provider"
+import { LoginDialog } from "./auth/login-dialog"
+import { useAuth } from "../contexts/auth-context"
+import { Button } from "./ui/button"
+import { Moon, Sun } from "lucide-react"
 
 export function Header() {
   const { theme, setTheme } = useTheme()
@@ -21,16 +21,12 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             aria-label="Toggle theme"
           >
-            {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
           </Button>
-          {user ? (
-            <span className="text-sm text-muted-foreground">{user.email}</span>
-          ) : (
-            <LoginDialog />
-          )}
+          {user ? <span className="text-sm text-muted-foreground">{user.email}</span> : <LoginDialog />}
         </div>
       </div>
     </header>

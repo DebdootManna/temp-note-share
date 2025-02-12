@@ -1,7 +1,8 @@
-import { AuthProvider } from './contexts/auth-context'
-import { Layout } from './components/layout'
-import { Toaster } from './components/ui/toaster'
-import './globals.css'
+import { AuthProvider } from "./contexts/auth-context"
+import { Layout } from "./components/layout"
+import { Toaster } from "./components/ui/toaster"
+import "./globals.css"
+import type React from "react" // Added import for React
 
 export default function RootLayout({
   children,
@@ -12,9 +13,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <Layout>
-            {children}
-          </Layout>
+          <Layout>{children}</Layout>
           <Toaster />
         </AuthProvider>
       </body>
