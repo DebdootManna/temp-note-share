@@ -1,12 +1,12 @@
 "use client"
 
+import type * as React from "react"
 import { ThemeProvider } from "./theme-provider"
 import { Header } from "./header"
-import type React from "react" // Added import for React
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="temp-note-share-theme">
+    <ThemeProvider>
       <div className="min-h-screen bg-background text-foreground">
         <Header />
         <main className="container mx-auto px-4 py-8">{children}</main>
