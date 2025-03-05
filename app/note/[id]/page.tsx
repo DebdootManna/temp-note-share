@@ -168,7 +168,7 @@ export default function NotePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="mx-auto max-w-2xl">
+      <Card className="mx-auto max-w-2xl bg-card text-card-foreground">
         <CardHeader>
           <div className="flex items-center gap-2 mb-4">
             <Button onClick={() => router.push("/")} variant="outline" size="sm">

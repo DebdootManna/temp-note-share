@@ -1,13 +1,13 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { supabase } from '../lib/supabaseClient'
-import { useAuth } from '../contexts/auth-context'
-import { Button } from '../components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card'
-import { Clock, Trash2 } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { supabase } from "../lib/supabaseClient"
+import { useAuth } from "../contexts/auth-context"
+import { Button } from "../components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
+import { Clock, Trash2 } from "lucide-react"
+import { formatDistanceToNow } from "date-fns"
 
 interface Note {
   id: string
@@ -24,23 +24,18 @@ export function NotesList() {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      const query = supabase
-        .from('notes')
-        .select('*')
-        .order('created_at', { ascending: false })
+      const query = supabase.from("notes").select("*").order("created_at", { ascending: false })
 
-      // If user is logged in, fetch their permanent notes and temporary notes
-      // If not logged in, only fetch temporary notes that haven't expired
       if (user) {
         query.or(`user_id.eq.${user.id},and(user_id.is.null,expires_at.gt.${new Date().toISOString()})`)
       } else {
-        query.is('user_id', null).gt('expires_at', new Date().toISOString())
+        query.is("user_id", null).gt("expires_at", new Date().toISOString())
       }
 
       const { data, error } = await query
 
       if (error) {
-        console.error('Error fetching notes:', error)
+        console.error("Error fetching notes:", error)
       } else {
         setNotes(data || [])
       }
@@ -48,10 +43,9 @@ export function NotesList() {
 
     fetchNotes()
 
-    // Set up real-time subscription
     const channel = supabase
-      .channel('notes_channel')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'notes' }, () => {
+      .channel("notes_channel")
+      .on("postgres_changes", { event: "*", schema: "public", table: "notes" }, () => {
         fetchNotes()
       })
       .subscribe()
@@ -62,36 +56,28 @@ export function NotesList() {
   }, [user])
 
   const deleteNote = async (id: string) => {
-    const { error } = await supabase
-      .from('notes')
-      .delete()
-      .eq('id', id)
+    const { error } = await supabase.from("notes").delete().eq("id", id)
 
     if (error) {
-      console.error('Error deleting note:', error)
+      console.error("Error deleting note:", error)
     }
   }
 
   const getExpiryText = (expiresAt: string | null) => {
-    if (!expiresAt) return 'Permanent note'
+    if (!expiresAt) return "Permanent note"
     const expiryDate = new Date(expiresAt)
-    if (expiryDate < new Date()) return 'Expired'
+    if (expiryDate < new Date()) return "Expired"
     return `Expires ${formatDistanceToNow(expiryDate, { addSuffix: true })}`
   }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {notes.map((note) => (
-        <Card key={note.id} className="flex flex-col">
+        <Card key={note.id} className="flex flex-col bg-card text-card-foreground">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               Note
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => deleteNote(note.id)}
-                className="h-8 w-8"
-              >
+              <Button variant="ghost" size="icon" onClick={() => deleteNote(note.id)} className="h-8 w-8">
                 <Trash2 className="h-4 w-4" />
               </Button>
             </CardTitle>
@@ -104,11 +90,7 @@ export function NotesList() {
             <p className="line-clamp-3">{note.content}</p>
           </CardContent>
           <CardFooter>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => router.push(`/note/${note.id}`)}
-            >
+            <Button variant="outline" className="w-full" onClick={() => router.push(`/notes/${note.id}`)}>
               View & Edit
             </Button>
           </CardFooter>
