@@ -1,0 +1,18 @@
+graph TD
+    subgraph "Frontend"
+        A["Next.js App"] --> B["React Components"]
+        B --> C["User Interface"]
+    end
+    
+    subgraph "Backend"
+        D["Serverless Functions"] --> E["Encryption Service"]
+        D --> F["Database Service"]
+        G["Scheduled Cleanup Jobs"]
+    end
+    
+    C <--> D
+    F <--> G
+    
+    style A fill:#0070F3,stroke:#0050A3,color:white
+    style D fill:#FF4E50,stroke:#CC3E40,color:white
+    style G fill:#FFD700,stroke:#B09500,color:black

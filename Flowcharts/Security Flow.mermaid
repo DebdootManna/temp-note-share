@@ -1,0 +1,13 @@
+graph LR
+    A["User Creates Note"] --> B["Client-side Encryption"]
+    B --> C["Encrypted Storage"]
+    C --> D["Secure Access Link"]
+    D --> E["Recipient Authentication"]
+    E --> F["Client-side Decryption"]
+    F --> G["Note Viewing"]
+    G --> H["Permanent Deletion"]
+    
+    style B fill:#4CAF50,stroke:#388E3C,color:white
+    style C fill:#2196F3,stroke:#1976D2,color:white
+    style E fill:#FFC107,stroke:#FFA000,color:black
+    style H fill:#F44336,stroke:#D32F2F,color:white

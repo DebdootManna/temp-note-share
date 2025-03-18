@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant Creator
+    participant App
+    participant Recipient
+    
+    Creator->>App: Create note
+    Creator->>App: Set expiration rules
+    App->>Creator: Generate secure link
+    Creator->>Recipient: Share link (external)
+    Recipient->>App: Access link
+    App->>Recipient: Display note
+    App->>App: Destroy note after viewing/expiration
+    App->>Recipient: Show destruction confirmation
+    
+    Note over App: Note is permanently deleted
