@@ -31,7 +31,7 @@ A simple, secure application for sharing temporary notes that automatically expi
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/temporary-note-sharing-app.git
+git clone https://github.com/DebdootManna/temporary-note-sharing-app.git
 cd temporary-note-sharing-app
 ```
 
